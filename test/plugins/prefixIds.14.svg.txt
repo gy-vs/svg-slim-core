@@ -1,0 +1,27 @@
+Prefix ids referenced from SMIL begin/end attributes, including syncbase
+values with offsets, event values, and semicolon separated lists, while
+leaving clock values and indefinite untouched
+
+===
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <circle r="5">
+        <animate id="fadein" attributeName="opacity" from="0" to="1" dur="0.5s" begin="0s" fill="freeze"/>
+        <animate id="grow" attributeName="r" from="5" to="10" dur="0.5s" begin="fadein.end" end="fadein.begin+2s" fill="freeze"/>
+        <animate attributeName="fill" from="red" to="blue" dur="0.5s" begin="grow.click" fill="freeze"/>
+        <animate attributeName="stroke-width" from="0" to="2" dur="0.5s" begin="0s; fadein.end; grow.begin" fill="freeze"/>
+        <animate attributeName="cx" from="0" to="10" dur="2s" begin="indefinite" fill="freeze"/>
+    </circle>
+</svg>
+
+@@@
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <circle r="5">
+        <animate id="prefixIds_14_svg_txt__fadein" attributeName="opacity" from="0" to="1" dur="0.5s" begin="0s" fill="freeze"/>
+        <animate id="prefixIds_14_svg_txt__grow" attributeName="r" from="5" to="10" dur="0.5s" begin="prefixIds_14_svg_txt__fadein.end" end="prefixIds_14_svg_txt__fadein.begin+2s" fill="freeze"/>
+        <animate attributeName="fill" from="red" to="blue" dur="0.5s" begin="prefixIds_14_svg_txt__grow.click" fill="freeze"/>
+        <animate attributeName="stroke-width" from="0" to="2" dur="0.5s" begin="0s; prefixIds_14_svg_txt__fadein.end; prefixIds_14_svg_txt__grow.begin" fill="freeze"/>
+        <animate attributeName="cx" from="0" to="10" dur="2s" begin="indefinite" fill="freeze"/>
+    </circle>
+</svg>

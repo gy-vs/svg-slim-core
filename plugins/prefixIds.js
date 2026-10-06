@@ -1,4 +1,5 @@
 import * as csstree from 'css-tree';
+import { replaceTimingIdReferences } from '../lib/svgo/tools.js';
 import { referencesProps } from './_collections.js';
 
 /**
@@ -257,14 +258,10 @@ export const fn = (_root, params, info) => {
             node.attributes[name] != null &&
             node.attributes[name].length !== 0
           ) {
-            const parts = node.attributes[name].split(/\s*;\s+/).map((val) => {
-              if (val.endsWith('.end') || val.endsWith('.start')) {
-                const [id, postfix] = val.split('.');
-                return `${prefixId(prefixGenerator, id)}.${postfix}`;
-              }
-              return val;
-            });
-            node.attributes[name] = parts.join('; ');
+            node.attributes[name] = replaceTimingIdReferences(
+              node.attributes[name],
+              (id) => prefixId(prefixGenerator, id),
+            );
           }
         }
       },
