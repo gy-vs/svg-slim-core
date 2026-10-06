@@ -1,5 +1,6 @@
 import * as csstree from 'css-tree';
 import { referencesProps } from './_collections.js';
+import { regReferencesSmil } from '../lib/svgo/tools.js';
 
 /**
  * @typedef PrefixIdsParams
@@ -137,6 +138,21 @@ export const fn = (_root, params, info) => {
   /** @type {Map<string, string>} */
   const prefixMap = new Map();
 
+  /**
+   * IDs defined in the document, kept to distinguish references from clock
+   * values or standalone event names and to resolve forward references.
+   *
+   * @type {Set<string>}
+   */
+  const ids = new Set();
+  /**
+   * Elements carrying a begin or end attribute, rewritten in `root.exit`
+   * after all IDs have been collected and prefixed.
+   *
+   * @type {import('../lib/types.js').XastElement[]}
+   */
+  const smilElements = [];
+
   return {
     element: {
       enter: (node) => {
@@ -200,6 +216,7 @@ export const fn = (_root, params, info) => {
           node.attributes.id != null &&
           node.attributes.id.length !== 0
         ) {
+          ids.add(node.attributes.id);
           node.attributes.id = prefixId(prefixGenerator, node.attributes.id);
         }
 
@@ -251,20 +268,34 @@ export const fn = (_root, params, info) => {
           }
         }
 
-        // prefix begin/end attribute value
-        for (const name of ['begin', 'end']) {
-          if (
-            node.attributes[name] != null &&
-            node.attributes[name].length !== 0
-          ) {
-            const parts = node.attributes[name].split(/\s*;\s+/).map((val) => {
-              if (val.endsWith('.end') || val.endsWith('.start')) {
-                const [id, postfix] = val.split('.');
-                return `${prefixId(prefixGenerator, id)}.${postfix}`;
-              }
-              return val;
-            });
-            node.attributes[name] = parts.join('; ');
+        // collect begin/end attributes, they are rewritten in `root.exit`
+        // once every ID in the document is known, so forward references
+        // and references in later list items are prefixed as well
+        if (node.attributes.begin != null || node.attributes.end != null) {
+          smilElements.push(node);
+        }
+      },
+    },
+
+    root: {
+      exit: () => {
+        for (const node of smilElements) {
+          /** @type {(id: string) => string} */
+          const prefixGenerator = (id) =>
+            generatePrefix(id, node, info, prefix, delim, prefixMap);
+          for (const name of ['begin', 'end']) {
+            const value = node.attributes[name];
+            if (value != null && value.length !== 0) {
+              node.attributes[name] = value.replaceAll(
+                regReferencesSmil,
+                (match, lead, id) =>
+                  ids.has(id)
+                    ? `${lead}${prefixId(prefixGenerator, id)}${match.slice(
+                        lead.length + id.length,
+                      )}`
+                    : match,
+              );
+            }
           }
         }
       },

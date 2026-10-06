@@ -1,0 +1,28 @@
+Prefix SMIL syncbase and event references in begin/end attributes:
+.begin bases, time offsets, events, hyphenated ids and semicolon lists
+
+===
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <rect id="my-rect" width="10" height="10"/>
+    <animate id="fade-in" attributeName="opacity" begin="0s" dur="1s"/>
+    <animate id="grow" attributeName="r" begin="fade-in.end" dur="1s"/>
+    <animate attributeName="cx" begin="fade-in.begin" dur="1s"/>
+    <animate attributeName="cy" begin="fade-in.end+1s" dur="1s"/>
+    <animate attributeName="fill" begin="my-rect.click" dur="1s"/>
+    <animate attributeName="stroke" begin="0s; fade-in.end; grow.begin" dur="1s"/>
+    <animate attributeName="opacity" begin="2s" end="indefinite" dur="1s"/>
+</svg>
+
+@@@
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <rect id="prefixIds_14_svg_txt__my-rect" width="10" height="10"/>
+    <animate id="prefixIds_14_svg_txt__fade-in" attributeName="opacity" begin="0s" dur="1s"/>
+    <animate id="prefixIds_14_svg_txt__grow" attributeName="r" begin="prefixIds_14_svg_txt__fade-in.end" dur="1s"/>
+    <animate attributeName="cx" begin="prefixIds_14_svg_txt__fade-in.begin" dur="1s"/>
+    <animate attributeName="cy" begin="prefixIds_14_svg_txt__fade-in.end+1s" dur="1s"/>
+    <animate attributeName="fill" begin="prefixIds_14_svg_txt__my-rect.click" dur="1s"/>
+    <animate attributeName="stroke" begin="0s; prefixIds_14_svg_txt__fade-in.end; prefixIds_14_svg_txt__grow.begin" dur="1s"/>
+    <animate attributeName="opacity" begin="2s" end="indefinite" dur="1s"/>
+</svg>

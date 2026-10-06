@@ -1,0 +1,19 @@
+Keep and rename hyphenated ids referenced from begin/end SMIL attributes
+
+===
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <circle>
+        <animate id="fade-in" attributeName="opacity" begin="0s" dur="1s"/>
+        <animate attributeName="r" begin="fade-in.end" dur="1s"/>
+    </circle>
+</svg>
+
+@@@
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <circle>
+        <animate id="a" attributeName="opacity" begin="0s" dur="1s"/>
+        <animate attributeName="r" begin="a.end" dur="1s"/>
+    </circle>
+</svg>

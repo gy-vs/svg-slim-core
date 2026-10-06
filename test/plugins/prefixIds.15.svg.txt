@@ -1,0 +1,24 @@
+Prefix references which appear before the referenced id and leave
+references to ids that do not exist in the document untouched
+
+===
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <animate attributeName="r" begin="fade-in.end+2s" end="fade-in.begin" dur="1s"/>
+    <animate attributeName="opacity" begin="missing.end" dur="1s"/>
+    <rect width="10" height="10">
+        <animate attributeName="x" begin="click" dur="1s"/>
+    </rect>
+    <animate id="fade-in" attributeName="fill" begin="0s" dur="1s"/>
+</svg>
+
+@@@
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <animate attributeName="r" begin="prefixIds_15_svg_txt__fade-in.end+2s" end="prefixIds_15_svg_txt__fade-in.begin" dur="1s"/>
+    <animate attributeName="opacity" begin="missing.end" dur="1s"/>
+    <rect width="10" height="10">
+        <animate attributeName="x" begin="click" dur="1s"/>
+    </rect>
+    <animate id="prefixIds_15_svg_txt__fade-in" attributeName="fill" begin="0s" dur="1s"/>
+</svg>

@@ -1,0 +1,26 @@
+Keep ids referenced from the end attribute, including syncbase offsets,
+event bases and multiple references inside semicolon separated lists
+
+===
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <rect id="my-rect" width="10" height="10"/>
+    <animate id="fade-in" attributeName="opacity" begin="0s" end="3s"/>
+    <animate id="grow" attributeName="r" begin="fade-in.end" dur="1s"/>
+    <animate attributeName="cx" end="fade-in.end+1s" begin="0s" dur="1s"/>
+    <animate attributeName="cy" begin="my-rect.click+0.5s" dur="1s"/>
+    <animate attributeName="rx" begin="0s; fade-in.end; grow.begin" dur="1s"/>
+    <animate attributeName="ry" begin="2s" end="indefinite" dur="1s"/>
+</svg>
+
+@@@
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <rect id="b" width="10" height="10"/>
+    <animate id="a" attributeName="opacity" begin="0s" end="3s"/>
+    <animate id="c" attributeName="r" begin="a.end" dur="1s"/>
+    <animate attributeName="cx" end="a.end+1s" begin="0s" dur="1s"/>
+    <animate attributeName="cy" begin="b.click+0.5s" dur="1s"/>
+    <animate attributeName="rx" begin="0s; a.end; c.begin" dur="1s"/>
+    <animate attributeName="ry" begin="2s" end="indefinite" dur="1s"/>
+</svg>

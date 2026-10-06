@@ -20,6 +20,8 @@
     "onbegin",
     "onrepeat",
     "panose",
+    "smil", // Synchronized Multimedia Integration Language
+    "SMIL",
     "stemh",
     "stemv",
     "SVGs",
